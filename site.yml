@@ -1,0 +1,12 @@
+---
+- name: Set up slurm cluster
+  hosts: slurm_cluster
+  become: true
+  vars_files:
+    - vars/main.yml
+  roles:
+    # - role: system_setup
+    # - role: nfs_setup
+    - role: slurm_setup
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

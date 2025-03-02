@@ -1,0 +1,31 @@
+---
+- name: Update and upgrade all packages
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+
+- name: Set the hostname dynamically based on the current IP address
+  ansible.builtin.hostname:
+    name: "{{ item.hostname }}"
+  loop: "{{ system_setup_hosts_mapping[group_names[0]] }}"
+  when: hostvars[inventory_hostname].ansible_ssh_host == item.ip
+
+- name: Generate /etc/hosts file from template
+  ansible.builtin.template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Append cgroup_v2 memory and swap to cmdline.txt
+  ansible.builtin.lineinfile:
+    path: /boot/firmware/cmdline.txt
+    regexp: '^(.*)$'
+    line: '\1 systemd.unified_cgroup_hierarchy=1 systemd.legacy_systemd_cgroup_controller=0 cgroup_no_v1=all cgroup_enable=memory swapaccount=1'
+    backrefs: true
+
+- name: Reboot the machine (Wait for 60 seconds)
+  ansible.builtin.reboot:
+    reboot_timeout: 60

@@ -1,0 +1,71 @@
+---
+- name: Create /clusterfs for shared directory
+  ansible.builtin.file:
+    path: /clusterfs
+    state: directory
+    mode: '0777'
+    owner: nobody
+    group: nogroup
+
+- name: Mount drive and Set up NFS server
+  when: inventory_hostname in groups['head_node']
+  block:
+    - name: Format an ext4 filesystem on /dev/sda1
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/sda1
+        force: true
+
+    - name: Run blkid to get UUID of /dev/sda1
+      ansible.builtin.command: blkid /dev/sda1
+      register: blkid_output
+      changed_when: false
+
+    - name: Mount device by UUID
+      ansible.posix.mount:
+        path: /clusterfs
+        src: "{{ blkid_output.stdout | regex_search('UUID=\"(.*?)\"') }}"
+        fstype: ext4
+        opts: defaults
+        dump: "0"
+        passno: "2"
+        state: mounted
+
+    - name: Install NFS server
+      ansible.builtin.apt:
+        name: nfs-kernel-server
+        state: present
+
+    - name: Add entry to /etc/exports
+      ansible.builtin.lineinfile:
+        path: /etc/exports
+        line: "/clusterfs {{ nfs_setup_network }}(rw,sync,no_root_squash,no_subtree_check)"
+        create: true
+        mode: '0644'
+        state: present
+
+    - name: Restart NFS server
+      ansible.builtin.systemd:
+        name: nfs-kernel-server
+        state: restarted
+        daemon_reload: true
+
+- name: Set up NFS client tasks
+  when: inventory_hostname in groups['compute_node']
+  block:
+    - name: Install NFS client
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+
+    - name: Mount NFS volume
+      ansible.posix.mount:
+        src: "{{ nfs_setup_server_ip }}:/clusterfs"
+        path: /clusterfs
+        opts: rw,sync
+        state: mounted
+        fstype: nfs
+
+- name: Reboot the machine (Wait for 80 seconds)
+  ansible.builtin.reboot:
+    reboot_timeout: 80

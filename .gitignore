@@ -1,0 +1,26 @@
+# Ansible Temporary Files
+*.retry
+*.log
+.vscode
+.ansible
+./roles/slurm_setup/files/munge.key
+*.lock
+
+# Private Keys
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# System files
+.DS_Store
+*.swp
+*.swo

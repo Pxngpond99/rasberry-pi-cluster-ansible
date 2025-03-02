@@ -1,0 +1,11 @@
+[head_node]
+node1 ansible_ssh_host=10.0.10.11
+
+[compute_node]
+node2 ansible_ssh_host=10.0.10.101
+node3 ansible_ssh_host=10.0.10.102
+node4 ansible_ssh_host=10.0.10.103
+
+[slurm_cluster:children]
+head_node
+compute_node
