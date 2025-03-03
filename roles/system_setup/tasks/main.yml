@@ -17,7 +17,6 @@
     owner: root
     group: root
     mode: '0644'
-  become: true
 
 - name: Append cgroup_v2 memory and swap to cmdline.txt
   ansible.builtin.lineinfile:
