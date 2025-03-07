@@ -1,0 +1,9 @@
+---
+- name: Move files to /clusterfs
+  hosts: slurm_cluster
+  tasks:
+    - name: Copy a file from control node to /clusterfs
+      copy:
+        src: hello_mpi.cpp  # Change this to your actual file path
+        dest: /clusterfs/hello_mpi.cpp
+        mode: '0666'
