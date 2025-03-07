@@ -2,19 +2,17 @@
 # ======================================= SYSTEM_SETUP_VARIABLE.
 system_setup_hosts_mapping:
   head_node:
-  - ip: "10.0.10.11"
+  - ip: "10.0.2.11"
     hostname: "head-node1"
   compute_node:
-  - ip: "10.0.10.101"
+  - ip: "10.0.2.12"
     hostname: "compute-node1"
-  - ip: "10.0.10.102"
+  - ip: "10.0.2.13"
     hostname: "compute-node2"
-  - ip: "10.0.10.103"
-    hostname: "compute-node3"
 
 # ======================================= NFS_SETUP_VARIABLE.
-nfs_setup_network: "10.0.10.0/24"
-nfs_setup_server_ip: "10.0.10.11"
+nfs_setup_network: "10.0.2.0/24"
+nfs_setup_server_ip: "10.0.2.11"
 
 # ======================================= SLURM_SETUP_VARIABLE.
 slurm_setup_package_names:
@@ -32,7 +30,7 @@ slurm_setup_jobacctgather_type: "cgroup"
 
 slurm_setup_hosts_mapping:
   head_node:
-  - ip: "10.0.10.11"
+  - ip: "10.0.2.11"
     hostname: "head-node1"
     CPUs: 4
     Sockets: 1
@@ -40,22 +38,15 @@ slurm_setup_hosts_mapping:
     ThreadsPerCore: 1
     RealMemory: 907
   compute_node:
-  - ip: "10.0.10.101"
+  - ip: "10.0.2.12"
     hostname: "compute-node1"
     CPUs: 4
     Sockets: 1
     CoresPerSocket: 4
     ThreadsPerCore: 1
     RealMemory: 907
-  - ip: "10.0.10.102"
+  - ip: "10.0.2.13"
     hostname: "compute-node2"
-    CPUs: 4
-    Sockets: 1
-    CoresPerSocket: 4
-    ThreadsPerCore: 1
-    RealMemory: 907
-  - ip: "10.0.10.103"
-    hostname: "compute-node3"
     CPUs: 4
     Sockets: 1
     CoresPerSocket: 4

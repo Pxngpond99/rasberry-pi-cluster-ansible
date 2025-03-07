@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Variables
-USERNAME="ansible"                  # Replace with your actual username
-PASSWORD="ansible"                  # Password for all remote nodes
-KEY_PATH="$HOME/.ssh/ansible"       # SSH key path for ed25519 key
+USERNAME="pi"                  # Replace with your actual username
+PASSWORD="123456"                  # Password for all remote nodes
+KEY_PATH="$HOME/.ssh/pi"       # SSH key path for ed25519 key
 INVENTORY_FILE="hosts"              # Inventory file containing the node list
 
 # Ensure sshpass is installed

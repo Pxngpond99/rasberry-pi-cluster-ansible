@@ -14,7 +14,7 @@ slurm_setup_jobacctgather_type: "cgroup"
 
 slurm_setup_hosts_mapping:
   head_node:
-    - ip: "10.0.10.11"
+    - ip: "10.0.2.11"
       hostname: "head-node1"
       CPUs: 4
       Sockets: 1
@@ -22,7 +22,7 @@ slurm_setup_hosts_mapping:
       ThreadsPerCore: 1
       RealMemory: 907
   compute_node:
-    - ip: "10.0.10.101"
+    - ip: "10.0.2.12"
       hostname: "compute-node1"
       CPUs: 4
       Sockets: 1
